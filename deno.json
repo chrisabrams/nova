@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "test": "./tasks/test"
+  },
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "singleQuote": true,
+    "useTabs": false
+  }
+}

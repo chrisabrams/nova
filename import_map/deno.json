@@ -1,0 +1,16 @@
+{
+  "imports": {
+    "~/": "../",
+    "body-parser": "https://esm.sh/body-parser@1.20.1",
+    "chai": "https://esm.sh/chai@4.3.7",
+    "esbuild": "https://esm.sh/esbuild@0.16.10",
+    "esbuild-plugin-import-map": "https://esm.sh/esbuild-plugin-import-map@2.1.0",
+    "express": "npm:express",
+    "react": "https://esm.sh/react@18.2.0?dev",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?dev",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
+    "react-dom/server": "https://esm.sh/react-dom@18.2.0/server?dev",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+    "std/": "https://deno.land/std@0.170.0/"
+  }
+}
