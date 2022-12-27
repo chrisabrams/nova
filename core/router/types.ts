@@ -6,3 +6,8 @@ export interface NovaRoute {
   component: ElementType;
   path: string;
 }
+
+export interface NovaRouteOptions {
+  name: string;
+  routes?: NovaRoute[];
+}
