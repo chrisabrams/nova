@@ -3,9 +3,15 @@ import { describe, it } from "std/testing/bdd.ts";
 import { expect, use } from "chai";
 import { join } from "std/path/mod.ts";
 import { JSDOM } from "jsdom";
+import { ReactElement } from "react";
 import { render, screen } from "testing-library";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
+import { DOMParser, initParser } from "deno-dom/deno-dom-wasm-noinit.ts";
+
+import Router from "~/core/router/index.tsx";
+
+await initParser();
 
 // Chai helpers
 use(chaiJSDOM);
@@ -48,3 +54,15 @@ const paths = {
 };
 
 export { describe, expect, it, join, paths, render, screen };
+
+export function parseFromComponent(Component: ReactElement) {
+  const html = renderToString(Component);
+
+  return parseFromString(html);
+}
+
+export function parseFromString(html: string) {
+  const doc = new DOMParser().parseFromString(html, "text/html")!;
+
+  return doc;
+}

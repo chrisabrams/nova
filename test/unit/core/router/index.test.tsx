@@ -1,4 +1,13 @@
-import { describe, expect, it, paths, render, screen } from "~/test/_.ts";
+import {
+  describe,
+  expect,
+  it,
+  paths,
+  parseFromComponent,
+  parseFromString,
+} from "~/test/_.ts";
+import { renderRoute } from "~/test/helpers/react.tsx";
+
 import Presenter from "~/core/presenters/index.ts";
 import Router from "~/core/router/index.tsx";
 import ViewIndexPage from "~/test/fixtures/src/views/index.tsx";
@@ -43,19 +52,40 @@ describe("Router", () => {
     expect(router.routes.length).to.equal(1);
   });
 
-  /*
-  it("should render a route", () => {
+  it("should render a route from a component", () => {
     const router = Router.create("site");
 
     router.route("/", ViewIndexPage);
 
-    const { asFragment, container, getByTestId } = render(
-      <div>
-        <div data-testid="yo">Hello world</div>
-      </div>
-    );
+    const doc = renderRoute(router, "/");
+    const div = doc.querySelector("div")!;
 
-    console.log(container.querySelectorAll("*"));
+    expect(div.textContent).to.equal("Hello world");
   });
-  */
+
+  it("should render a route from a view interface", () => {
+    const router = Router.create("site");
+    const viewInterface = ViewInterface.create(ViewIndexPage);
+
+    router.route("/", viewInterface);
+
+    const doc = renderRoute(router, "/");
+    const div = doc.querySelector("div")!;
+
+    expect(div.textContent).to.equal("Hello world");
+  });
+
+  it("should render a route from a presenter", () => {
+    const router = Router.create("site");
+    const presenter = Presenter.create("site");
+    presenter.defineView("index", ViewIndexPage);
+    router.setPresenter(presenter);
+
+    router.route("/", "index");
+
+    const doc = renderRoute(router, "/");
+    const div = doc.querySelector("div")!;
+
+    expect(div.textContent).to.equal("Hello world");
+  });
 });

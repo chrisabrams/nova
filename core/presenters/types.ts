@@ -1,10 +1,10 @@
-import { ElementType } from "react";
+import { ComponentType } from "react";
 
 export interface NovaPresenterOptions {
   name: string;
 }
 
 export interface NovaViewDefinition {
-  Component: ElementType;
+  Component: ComponentType;
   name: string;
 }

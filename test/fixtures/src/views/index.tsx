@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import type { NovaViewConfig } from "~/core/views/types.ts";
 
-const IndexPage = () => {
+function IndexPage() {
   return <div>Hello world</div>;
-};
+}
 
 export default IndexPage;
 
