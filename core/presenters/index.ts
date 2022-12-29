@@ -1,6 +1,7 @@
 import { ElementType } from "react";
 import ViewInterface from "./view-interface.tsx";
 import type { NovaPresenterOptions, NovaViewDefinition } from "./types.ts";
+import { getFromIndex } from "~/utils/object.ts";
 
 class NovaPresenter {
   name: NovaPresenterOptions["name"];
@@ -23,8 +24,22 @@ class NovaPresenter {
     return this;
   }
 
+  getView(name: keyof typeof this.views) {
+    return getFromIndex(this.views, name);
+  }
+
   present(Component: ElementType, props = {}) {
     return new ViewInterface(Component, props);
+  }
+
+  presentView(name: keyof typeof this.views, props = {}) {
+    const view = this.getView(name);
+
+    if (view) {
+      return this.present(view.Component, props);
+    }
+
+    return null;
   }
 }
 

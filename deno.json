@@ -1,5 +1,7 @@
 {
+  "importMap": "./import_map/deno.json",
   "tasks": {
+    "coverage": "./tasks/coverage",
     "test": "./tasks/test"
   },
   "fmt": {

@@ -3,7 +3,7 @@ import type { NovaViewConfig } from "../views/types.ts";
 
 export interface NovaRoute {
   config?: NovaViewConfig;
-  component: ElementType;
+  component: JSX.Element | ElementType; // TODO: Come back and double check this
   path: string;
 }
 

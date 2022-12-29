@@ -1,3 +1,6 @@
+import { ElementType } from "react";
+import Presenter from "~/core/presenters/index.ts";
+import ViewInterface from "~/core/presenters/view-interface.tsx";
 import type { NovaRoute, NovaRouteOptions } from "./types.ts";
 
 class NovaRouter {
@@ -7,7 +10,7 @@ class NovaRouter {
   constructor({ name, routes }: NovaRouteOptions) {
     this.name = name;
 
-    if (routes && routes.length) {
+    if (routes?.length) {
       this.routes = routes;
     }
   }
@@ -24,6 +27,14 @@ class NovaRouter {
         })}
       </>
     );
+  }
+
+  route(path: string, Component: ElementType): void;
+  route(path: string, viewInterface: ViewInterface): void;
+  route(path: string, Arg: ElementType | ViewInterface): void {
+    const Component = Arg instanceof ViewInterface ? Arg.render() : <Arg />;
+
+    this.routes.push({ component: Component, path });
   }
 }
 
