@@ -37,6 +37,6 @@ describe("Presenter", () => {
 
     const view = presenter.getView("index");
 
-    expect(view.name == "index");
+    expect(view?.name == "index");
   });
 });

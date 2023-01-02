@@ -1,6 +1,7 @@
 import { describe, expect, it, paths } from "~/test/_.ts";
-import { generateRoutes } from "~/core/bootstrap/routes.ts";
+import { generateRoutes } from "~/extensions/pages/routes.ts";
 
+import ViewHelloDataPage from "~/test/fixtures/src/views/hello-data.tsx";
 import ViewIndexPage from "~/test/fixtures/src/views/index.tsx";
 import ViewPostPage from "~/test/fixtures/src/views/posts/index.tsx";
 import ViewPostsPage from "~/test/fixtures/src/views/posts/[slug].tsx";
@@ -16,9 +17,10 @@ describe("Bootstrap Routes", () => {
   it("should generate a list of routes", async () => {
     const routes = await generateRoutes({ basePath: paths.fixtures });
 
-    expect(routes.length).to.equal(4);
+    expect(routes.length).to.equal(5);
 
     const routesToCheck = [
+      { component: ViewHelloDataPage, config: undefined, path: "/hello-data" },
       { component: ViewIndexPage, config: { id: "homepage" }, path: "/" },
       { component: ViewOtherPage, config: undefined, path: "/other/*" },
       { component: ViewPostPage, config: { id: "post" }, path: "/posts/:slug" },

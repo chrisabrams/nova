@@ -6,10 +6,7 @@ import { JSDOM } from "jsdom";
 import { ReactElement } from "react";
 import { render, screen } from "testing-library";
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom/server";
 import { DOMParser, initParser } from "deno-dom/deno-dom-wasm-noinit.ts";
-
-import Router from "~/core/router/index.tsx";
 
 await initParser();
 

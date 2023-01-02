@@ -1,26 +1,32 @@
-import { ElementType } from "react";
+import { ComponentType } from "react";
+import { NovaViewComponentType } from "~/core/views/types.ts";
+import type { NovaViewInterfaceProps } from "./types.ts";
+import NovaViewModel from "~/core/view-models/index.ts";
 
 // TODO: What is the correct default type for props?
-class NovaViewInterface<P = Record<string, unknown>> {
-  Component: ElementType;
-  props: P;
+class NovaViewInterface {
+  Component: NovaViewComponentType;
+  props: NovaViewInterfaceProps = {};
+  viewModel?: NovaViewModel;
 
-  // @ts-expect-error props might be a different type -- how to fix?
-  constructor(Component: ElementType, props: P = {}) {
+  constructor(Component: NovaViewComponentType, viewModel?: NovaViewModel) {
     this.Component = Component;
-    this.props = props;
+    this.viewModel = viewModel;
   }
 
-  // @ts-expect-error props might be a different type -- how to fix?
-  static create(Component: ElementType, props: P = {}) {
-    return new NovaViewInterface(Component, props);
+  static create(Component: NovaViewComponentType, viewModel?: NovaViewModel) {
+    return new NovaViewInterface(Component, viewModel);
   }
 
   render() {
-    const Component = this.Component;
-    const props = this.props;
+    const Component = this.Component!;
+    const props = this.viewModel?.props || {};
 
     return <Component {...props} />;
+  }
+
+  setViewModel(viewModel: NovaViewModel) {
+    this.viewModel = viewModel;
   }
 }
 

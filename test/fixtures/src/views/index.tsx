@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import type { NovaViewConfig } from "~/core/views/types.ts";
 
 function IndexPage() {
