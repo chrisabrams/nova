@@ -19,4 +19,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "nova"
-          entrypoint: "./www/main.ts" # TODO: update entrypoint
+          entrypoint: "./www/main.ts"
+          import-map: "./import-map/deno.json"

@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "~/": "../",
+    "react": "https://esm.sh/react@18.2.0?dev",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime?dev",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?dev",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
+    "react-router": "https://esm.sh/react-router@6.6.1?dev&external=react",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.6.1?dev&external=react,react-router"
+  }
+}

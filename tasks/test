@@ -1,4 +1,4 @@
 # rm -rf cov_profile
-deno test --unstable --allow-env --allow-ffi --allow-net --allow-read --config tsconfig.json --import-map import_map/deno.json --no-check=remote
-# deno test --allow-net --allow-read --config tsconfig.json --coverage=cov_profile --import-map import_map/deno.json
+deno test --unstable --allow-env --allow-ffi --allow-net --allow-read --config tsconfig.json --import-map import-map/deno.json --no-check=remote
+# deno test --allow-net --allow-read --config tsconfig.json --coverage=cov_profile --import-map import-map/deno.json
 # deno coverage cov_profile

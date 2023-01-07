@@ -2,7 +2,7 @@
   "deno.codeLens.test": true,
   "deno.config": "./tsconfig.json",
   "deno.enable": true,
-  "deno.importMap": "./import_map/deno.json",
+  "deno.importMap": "./import-map/deno.json",
   "deno.lint": true,
   "deno.unstable": true,
   "editor.formatOnSave": true
