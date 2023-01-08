@@ -1,9 +1,10 @@
 import { basename, join } from "std/path/mod.ts";
 import { contentType } from "std/media_types/mod.ts";
+import { NovaMiddlewareProps } from "nova/core/server/types.ts";
 
 // TODO: Support absolute paths for basePath in the future
 function serveStatic(basePath: string) {
-  return async (req: Request) => {
+  return async ({ req }: NovaMiddlewareProps) => {
     const url = new URL(req.url);
     const r = new RegExp(`^/${basePath}`);
 

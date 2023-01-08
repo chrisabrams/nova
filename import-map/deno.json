@@ -20,6 +20,7 @@
     "react-router-dom/server": "https://esm.sh/react-router-dom@6.6.1/server?dev&external=react",
     "std/": "https://deno.land/std@0.170.0/",
     "https://deno.land/std@0.170.0/node/vm.ts": "../lib/std/node/vm.ts",
-    "testing-library": "https://esm.sh/@testing-library/react@13.4.0?external=react"
+    "testing-library": "https://esm.sh/@testing-library/react@13.4.0?external=react",
+    "websocket/": "https://deno.land/x/websocket@v0.1.4/"
   }
 }

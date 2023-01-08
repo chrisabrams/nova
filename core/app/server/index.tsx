@@ -1,8 +1,9 @@
-import NovaWebServer from "nova/core/server/index.tsx";
+import { NovaWebServer } from "nova/core/server/index.tsx";
 import serveStatic from "nova/core/server/middleware/static.ts";
 
-const server = new NovaWebServer();
+const server = new NovaWebServer({ dev: true });
 
+/*
 server.use((req: any, data: any) => {
   if (req.url === "/favicon.ico") {
     return new Response(null, {
@@ -10,6 +11,7 @@ server.use((req: any, data: any) => {
     });
   }
 });
+*/
 
 server.use(serveStatic("dist"));
 

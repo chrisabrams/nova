@@ -2,7 +2,7 @@
   "importMap": "./import-map/deno.json",
   "tasks": {
     "dev": "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --watch --import-map=import-map/deno.json --config=tsconfig.json server.tsx",
-    "dev2": "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --watch --import-map=import-map/deno.json --config=tsconfig.json ../core/app/server/index.tsx"
+    "dev2": "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import-map/deno.json --config=tsconfig.json ../core/app/server/index.tsx"
   },
   "fmt": {
     "indentWidth": 2,
