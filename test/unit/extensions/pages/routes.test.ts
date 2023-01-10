@@ -1,11 +1,11 @@
 import { describe, expect, it, paths } from "~/test/_.ts";
 import { generateRoutes } from "~/extensions/pages/routes.ts";
 
-import ViewHelloDataPage from "~/test/fixtures/src/views/hello-data.tsx";
-import ViewIndexPage from "~/test/fixtures/src/views/index.tsx";
-import ViewPostPage from "~/test/fixtures/src/views/posts/index.tsx";
-import ViewPostsPage from "~/test/fixtures/src/views/posts/[slug].tsx";
-import ViewOtherPage from "~/test/fixtures/src/views/other/[...what].tsx";
+import ViewHelloDataPage from "~/test/fixtures/app/pages/hello-data.tsx";
+import ViewIndexPage from "~/test/fixtures/app/pages/index.tsx";
+import ViewPostPage from "~/test/fixtures/app/pages/posts/index.tsx";
+import ViewPostsPage from "~/test/fixtures/app/pages/posts/[slug].tsx";
+import ViewOtherPage from "~/test/fixtures/app/pages/other/[...what].tsx";
 
 describe("Bootstrap Routes", () => {
   it("should not generate a list of routes - missing views folder", async () => {

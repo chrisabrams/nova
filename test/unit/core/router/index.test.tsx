@@ -8,12 +8,12 @@ import {
 } from "~/test/_.ts";
 import { renderRoute } from "~/test/helpers/react.tsx";
 
-import Presenter from "~/core/presenters/index.ts";
-import Router from "~/core/router/index.tsx";
-import ViewHelloData from "~/test/fixtures/src/views/hello-data.tsx";
-import ViewIndexPage from "~/test/fixtures/src/views/index.tsx";
-import ViewInterface from "~/core/presenters/view-interface.tsx";
-import ViewModelHelloData from "~/test/fixtures/src/view-models/hello-data.ts";
+import Presenter from "nova/core/presenters/index.ts";
+import Router from "nova/core/router/index.tsx";
+import ViewHelloData from "~/test/fixtures/app/pages/hello-data.tsx";
+import ViewIndexPage from "~/test/fixtures/app/pages/index.tsx";
+import ViewInterface from "nova/core/presenters/view-interface.tsx";
+import ViewModelHelloData from "~/test/fixtures/app/view-models/hello-data.ts";
 
 describe("Router", () => {
   it("should not initialize router - missing constructor arguments", () => {
