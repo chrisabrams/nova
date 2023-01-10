@@ -1,3 +1,3 @@
 rm -rf cov
-deno test --coverage=cov --unstable --allow-env --allow-ffi --allow-net --allow-read --config tsconfig.json --import-map import-map/deno.json --no-check=remote
+deno test --coverage=cov --unstable --allow-env --allow-ffi --allow-net --allow-read --config tsconfig.json --import-map import-map/deno.json --no-check=remote -A
 deno coverage --unstable cov

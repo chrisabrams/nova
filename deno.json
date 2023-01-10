@@ -11,5 +11,10 @@
     "lineWidth": 80,
     "singleQuote": true,
     "useTabs": false
+  },
+  "test": {
+    "files": {
+      "exclude": ["www/"]
+    }
   }
 }
