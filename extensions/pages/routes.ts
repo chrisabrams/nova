@@ -1,6 +1,6 @@
 import { expandGlob } from "std/fs/expand_glob.ts";
-import type { NovaRoute } from "~/core/router/types.ts";
-import type { NovaViewDefinition } from "~/core/presenters/types.ts";
+import type { NovaRoute } from "nova/core/router/types.ts";
+import type { NovaViewDefinition } from "nova/core/presenters/types.ts";
 
 interface GenerateRoutesOptions {
   basePath?: string;
@@ -9,12 +9,12 @@ interface GenerateRoutesOptions {
 export async function generateRoutes({
   basePath = Deno.cwd(),
 }: GenerateRoutesOptions = {}) {
-  const globPath = `${basePath}/src/views/**/[a-z[]*.tsx`;
+  const globPath = `${basePath}/app/pages/**/[a-z[]*.tsx`;
   const routes: NovaRoute[] = [];
 
   for await (const file of expandGlob(globPath)) {
     let path = file.path
-      .replace(/\/src\/views|index|\.tsx$/g, "")
+      .replace(/\/app\/pages|index|\.tsx$/g, "")
       .replace(/\[\.{3}.+\]/, "*")
       .replace(/\[(.+)\]/, ":$1")
       .replace(basePath, "");

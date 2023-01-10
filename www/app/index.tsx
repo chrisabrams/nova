@@ -1,4 +1,4 @@
-import type { NovaApp } from "~/core/app/types.ts";
+import type { NovaApp } from "nova/core/app/types.ts";
 
 function App({ children }: NovaApp) {
   return (
@@ -8,10 +8,7 @@ function App({ children }: NovaApp) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Nova</title>
       </head>
-      <body>
-        <div>hello world</div>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

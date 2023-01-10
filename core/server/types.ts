@@ -1,4 +1,5 @@
 import { EventEmitter } from "std/node/events.ts";
+import NovaRouter from "nova/core/router/index.tsx";
 import NovaSocketServer from "./socket-server.ts";
 
 export type NovaMiddleware = (
@@ -19,4 +20,5 @@ export interface NovaSocketServerOptions {
 export interface NovaWebServerOptions {
   dev?: boolean;
   port?: number;
+  router?: NovaRouter;
 }

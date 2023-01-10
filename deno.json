@@ -1,6 +1,8 @@
 {
   "importMap": "./import-map/deno.json",
   "tasks": {
+    "cli:compile": "./tasks/cli/compile",
+    "cli:run": "./tasks/cli/run",
     "coverage": "./tasks/coverage",
     "test": "./tasks/test"
   },

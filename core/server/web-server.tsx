@@ -1,5 +1,5 @@
 import { ComponentType } from "react";
-import { deepmerge } from "deepmerge-ts";
+// import { deepmerge } from "deepmerge-ts";
 import { EventEmitter } from "std/node/events.ts";
 import { serve } from "std/http/server.ts";
 import {
@@ -12,19 +12,21 @@ import NovaSocketServer from "./socket-server.ts";
 import { join } from "std/path/mod.ts";
 import type { NovaMiddleware, NovaWebServerOptions } from "./types.ts";
 import liveReload from "./middleware/live-reload.ts";
+import NovaRouter from "nova/core/router/index.tsx";
+import { StaticRouter } from "react-router-dom/server";
 
 class NovaWebServer {
   public appPath = join(Deno.cwd(), "app");
-  private clients: any[] = [];
   public dev = false;
   public distDir = "dist";
   public distPath = join(Deno.cwd(), "dist");
   private ee: EventEmitter = new EventEmitter();
   private middleware: NovaMiddleware[] = [];
   public port = 8000;
+  public router: NovaRouter;
   public wss?: NovaSocketServer;
 
-  constructor({ dev, port }: NovaWebServerOptions) {
+  constructor({ dev, port, router }: NovaWebServerOptions) {
     if (typeof dev == "boolean") {
       this.dev = dev;
     }
@@ -33,15 +35,27 @@ class NovaWebServer {
       this.port = port;
     }
 
+    if (router) {
+      this.router = router;
+    } else {
+      this.router = new NovaRouter({ name: "app" });
+    }
+
     this.initialize();
   }
 
-  async createStream() {
+  async createStream(url: URL) {
     const App = await this.getAppComponent();
+    const location = url.pathname;
 
-    const stream = await renderToReadableStream(<App />, {
-      bootstrapModules: [join(this.distDir, "client.js")],
-    });
+    const stream = await renderToReadableStream(
+      <StaticRouter location={location}>
+        <App>{this.router.render()}</App>
+      </StaticRouter>,
+      {
+        bootstrapModules: [join(this.distDir, "client.js")],
+      }
+    );
 
     return stream;
   }
@@ -50,12 +64,13 @@ class NovaWebServer {
    *
    * @see https://github.com/denoland/deno/issues/6946
    */
-  async getAppComponent(): Promise<ComponentType> {
+  async getAppComponent() {
     let appIndex;
 
     try {
       appIndex = join(this.appPath, "index.tsx");
-      const { default: App } = await import(`${appIndex}#${Date.now()}`); // #Date.now() is a hack to force Deno to re-import the file
+      const appPath = this.dev ? `${appIndex}#${Date.now()}` : appIndex; // #Date.now() is a hack to force Deno to re-import the file
+      const { default: App } = await import(appPath);
 
       return App;
     } catch (e) {
@@ -84,22 +99,22 @@ class NovaWebServer {
       // data = deepmerge(data, result);
     }
 
-    const stream = await this.createStream();
+    const stream = await this.createStream(new URL(req.url));
 
     return this.responseApp(stream);
   }
 
-  async initialize() {
+  initialize() {
     if (this.dev) {
-      await this.createStream();
+      // await this.createStream();
 
       this.wss = new NovaSocketServer({ port: 8001 });
 
       this.use(bundle());
       this.use(liveReload());
 
-      this.ee.on("bundle", async () => {
-        await this.createStream();
+      this.ee.on("bundle", () => {
+        // await this.createStream();
 
         this.wss?.broadcastAll({
           rebuild: true,
@@ -116,9 +131,7 @@ class NovaWebServer {
   }
 
   async start() {
-    console.log(
-      `Nova webserver running. Access it at: http://localhost:${this.port}/`
-    );
+    console.log(`Nova webserver running:`);
 
     await serve(this.handler.bind(this));
   }

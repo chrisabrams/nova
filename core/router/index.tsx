@@ -24,6 +24,10 @@ class NovaRouter {
     }
   }
 
+  addRoutes(routes: NovaRoute[]) {
+    this.routes = [...this.routes, ...routes];
+  }
+
   static create(name: string) {
     return new NovaRouter({ name });
   }

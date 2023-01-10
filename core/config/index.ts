@@ -4,6 +4,31 @@ import { DenoConfig, ImportMap } from "./types.ts";
 
 class NovaConfig {
   /**
+   * Get a Nova app's configuration.
+   */
+  static async getAppConfig() {
+    const cwd = Deno.cwd();
+    let novaConfigPath = join(cwd, "nova.config.ts");
+
+    if (!(await fileExists(novaConfigPath))) {
+      novaConfigPath = join(cwd, "nova.config.js");
+    }
+
+    if (!(await fileExists(novaConfigPath))) {
+      return null;
+    }
+
+    try {
+      const config = await import(novaConfigPath);
+
+      return config.default;
+    } catch (e) {
+      console.error("Error parsing nova.config.ts", e);
+
+      return null;
+    }
+  }
+  /**
    * Get the configuration for the Deno runtime.
    */
   static async getDenoConfig(): Promise<DenoConfig | null> {
