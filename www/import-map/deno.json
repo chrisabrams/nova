@@ -1,6 +1,8 @@
 {
   "imports": {
     "~/": "../",
+    "@mdx-js/esbuild": "https://esm.sh/@mdx-js/esbuild@2.2.1?target=deno",
+    "@mdx-js/mdx": "https://esm.sh/@mdx-js/mdx@2.2.1?target=deno",
     "chai": "https://esm.sh/chai@4.3.7",
     "chai-jsdom": "https://esm.sh/chai-jsdom@0.2.3",
     "deepmerge-ts/": "https://esm.sh/deepmerge-ts@4.2.2/",

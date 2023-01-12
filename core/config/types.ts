@@ -8,6 +8,7 @@ export interface ImportMap {
   imports: Record<string, string>;
 }
 
-export interface NovaConfig {
+export interface NovaAppConfig {
   extensions?: string[];
+  mode: "development";
 }

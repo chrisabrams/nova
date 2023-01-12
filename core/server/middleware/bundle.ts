@@ -3,7 +3,7 @@ import { NovaMiddlewareProps } from "nova/core/server/types.ts";
 
 function bundleMiddleware() {
   return async ({ ee, wss }: NovaMiddlewareProps) => {
-    await bundle({ ee, wss });
+    await bundle({ ee });
   };
 }
 

@@ -89,6 +89,25 @@ class NovaRouter {
     );
   }
 
+  replaceRoute(route: NovaRoute) {
+    for (let j = 0, k = this.routes.length; j < k; j++) {
+      const existingRoute = this.routes[j];
+
+      if (route.id === existingRoute.id) {
+        this.routes[j] = route;
+        break;
+      }
+    }
+  }
+
+  replaceRoutes(routes: NovaRoute[]) {
+    for (let i = 0, l = routes.length; i < l; i++) {
+      const route = routes[i];
+
+      this.replaceRoute(route);
+    }
+  }
+
   route(path: string, Component: ComponentType): void;
   route(path: string, viewInterface: NovaViewInterface): void;
   route(path: string, presenterView: string): void; // TODO: This should be a presenter view ID

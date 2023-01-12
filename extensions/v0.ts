@@ -2,13 +2,17 @@ import {
   NovaExtensionAction,
   NovaExtensionActionList,
   NovaExtensionActionType,
+  NovaExtensionEvent,
+  NovaExtensionEventKind,
+  NovaExtensionEventList,
   NovaExtensionMetadata,
 } from "./types.ts";
 
 class NovaExtension {
-  private interfaceVersion = "0"; // What version of the Nova Extension interface.
+  public interfaceVersion = "0"; // What version of the Nova Extension interface.
 
   public actions: NovaExtensionActionList = [];
+  public events: NovaExtensionEventList = [];
 
   public desc: NovaExtensionMetadata["desc"];
   public name: NovaExtensionMetadata["name"];
@@ -31,6 +35,12 @@ class NovaExtension {
     action: NovaExtensionAction<typeof type>
   ) {
     this.actions.push({ action, type });
+
+    return this;
+  }
+
+  on(kind: NovaExtensionEventKind, action: NovaExtensionEvent<typeof kind>) {
+    this.events.push({ action, kind });
 
     return this;
   }

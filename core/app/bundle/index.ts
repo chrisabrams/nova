@@ -1,6 +1,8 @@
+import { debounce } from "std/async/debounce.ts";
 import * as esbuild from "https://deno.land/x/esbuild@v0.16.10/mod.js";
 import * as importMapPlugin from "esbuild-plugin-import-map";
 import { dirname, fromFileUrl, join } from "std/path/mod.ts";
+import mdx from "@mdx-js/esbuild";
 import NovaConfig from "nova/core/config/index.ts";
 import NovaSocketServer from "nova/core/server/socket-server.ts";
 import { NovaMiddlewareProps } from "nova/core/server/types.ts";
@@ -53,13 +55,10 @@ function localPathPlugin(moduleMap: typeof localPathModuleMap) {
   return { path: args.path, external: true }
 })*/
 
-export default async function ({
-  ee,
-  wss,
-}: Pick<NovaMiddlewareProps, "ee" | "wss">) {
+export default async function ({ ee }: Pick<NovaMiddlewareProps, "ee">) {
   const cwd = Deno.cwd();
   // console.log("cwd", cwd);
-  const output = await esbuild.build({
+  const es = await esbuild.build({
     absWorkingDir: cwd,
     alias: {
       "~": cwd,
@@ -77,7 +76,7 @@ export default async function ({
   // Listen for messages
   ws.addEventListener("message", (event) => {
     location.reload()
-    // console.log("Message from server ", event.data);
+    console.log("Message from server ", event.data);
   });
 })();
       `,
@@ -87,34 +86,39 @@ export default async function ({
     entryPoints: ["nova/core/app/bootstrap/client.tsx"],
     external: ["react", "react-dom", "react-dom/client", "react/jsx-runtime"],
     format: "esm",
-    // incremental: true,
+    incremental: true,
     jsx: "automatic",
     // metafile: true,
     outdir: "dist",
-    plugins: [localPathPlugin(localPathModuleMap), importMapPlugin.plugin()],
-    watch: {
-      onRebuild(error, result) {
-        console.log("Rebuilding bundle...");
-
-        /*
-        wss?.broadcastAll({
-          rebuild: true,
-        });
-        */
-
-        ee?.emit("bundle");
-
-        /*
-        clients.forEach((res) => res.write("data: update\n\n"));
-        clients.length = 0;
-        console.log(error ? error : "...");
-        */
-      },
-    },
+    plugins: [
+      localPathPlugin(localPathModuleMap),
+      importMapPlugin.plugin(),
+      mdx({ allowDangerousRemoteMdx: true }),
+    ],
+    watch: true,
     write: true,
   });
 
-  /*const indexJs = new TextDecoder().decode(output.outputFiles[0].contents);
+  let lastRebuild = 0;
 
-  return indexJs;*/
+  // TODO: Why doesn't debounce work here?
+  const onBundle = debounce(async () => {
+    const currentRebuild = Date.now();
+
+    if (currentRebuild - lastRebuild < 25) {
+      return;
+    }
+
+    lastRebuild = currentRebuild;
+
+    const t0 = performance.now();
+    await es.rebuild();
+    const t1 = performance.now();
+
+    console.log(`Bundle rebuilt in ${t1 - t0}ms.`);
+
+    ee.emit("bundled");
+  }, 25);
+
+  ee.on("bundle", onBundle);
 }

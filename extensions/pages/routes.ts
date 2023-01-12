@@ -1,20 +1,25 @@
+import { compile as compileMDX } from "@mdx-js/mdx";
 import { expandGlob } from "std/fs/expand_glob.ts";
+import { importer, readTextFile } from "nova/utils/import.ts";
+import { tseval } from "nova/utils/eval.ts";
 import type { NovaRoute } from "nova/core/router/types.ts";
 import type { NovaViewDefinition } from "nova/core/presenters/types.ts";
-
-interface GenerateRoutesOptions {
-  basePath?: string;
-}
+import type { GenerateRoutesOptions } from "./types.ts";
 
 export async function generateRoutes({
   basePath = Deno.cwd(),
+  dirs = ["pages"],
 }: GenerateRoutesOptions = {}) {
-  const globPath = `${basePath}/app/pages/**/[a-z[]*.tsx`;
+  const globPath = `${basePath}/app/{${dirs.join(",")}}/**/[a-z[]*.{mdx,tsx}`;
   const routes: NovaRoute[] = [];
 
   for await (const file of expandGlob(globPath)) {
     let path = file.path
-      .replace(/\/app\/pages|index|\.tsx$/g, "")
+      // .replace(/\/app\/(pages)|index|\.(mdx|tsx)$/g, "")
+      .replace(
+        new RegExp(`\/app\/(${dirs.join("|")})|index|\.(mdx|tsx)$`, "g"),
+        ""
+      )
       .replace(/\[\.{3}.+\]/, "*")
       .replace(/\[(.+)\]/, ":$1")
       .replace(basePath, "");
@@ -25,13 +30,40 @@ export async function generateRoutes({
       path = path.replace(/\/$/, "");
     }
 
-    const importedFile = await import(file.path);
-    const component = importedFile.default;
+    let component: any;
+    let config: any;
+
+    if (file.path.endsWith(".mdx")) {
+      try {
+        // console.log("file.path", file.path);
+        const mdxSource = await readTextFile(file.path);
+        const compiled = await compileMDX(mdxSource, {
+          // baseUrl: file.path,
+          outputFormat: "program",
+          remarkPlugins: [],
+          // useDynamicImport: true,
+        });
+
+        const evaled = await tseval(file.path, compiled.value);
+
+        component = evaled.default;
+      } catch (e) {
+        console.error("Error compiling MDX");
+        console.error(e);
+        console.error(e.message);
+        component = null;
+      }
+    } else {
+      const importedFile = await importer(file.path);
+      component = importedFile.default;
+      config = importedFile.config;
+    }
 
     routes.push({
       Component: component,
-      config: importedFile.config,
+      config,
       Element: component,
+      id: file.path,
       path,
       view: {} as NovaViewDefinition,
     });

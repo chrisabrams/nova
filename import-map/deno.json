@@ -1,7 +1,9 @@
 {
   "imports": {
     "~/": "../",
-    "body-parser": "https://esm.sh/body-parser@1.20.1",
+    "@hedgedoc/html-to-react": "https://esm.sh/@hedgedoc/html-to-react@1.4.5",
+    "@mdx-js/esbuild": "https://esm.sh/@mdx-js/esbuild@2.2.1?target=deno",
+    "@mdx-js/mdx": "https://esm.sh/@mdx-js/mdx@2.2.1?target=deno",
     "chai": "https://esm.sh/chai@4.3.7",
     "chai-jsdom": "https://esm.sh/chai-jsdom@0.2.3",
     "cliffy/": "https://deno.land/x/cliffy@v0.25.7/",

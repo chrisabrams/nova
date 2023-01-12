@@ -7,7 +7,8 @@ import {
   renderToReadableStream,
   renderToString,
 } from "react-dom/server";
-import bundle from "./middleware/bundle.ts";
+// import bundle from "./middleware/bundle.ts";
+import bundle from "nova/core/app/bundle/index.ts";
 import NovaSocketServer from "./socket-server.ts";
 import { join } from "std/path/mod.ts";
 import type { NovaMiddleware, NovaWebServerOptions } from "./types.ts";
@@ -20,7 +21,7 @@ class NovaWebServer {
   public dev = false;
   public distDir = "dist";
   public distPath = join(Deno.cwd(), "dist");
-  private ee: EventEmitter = new EventEmitter();
+  public ee: EventEmitter = new EventEmitter();
   private middleware: NovaMiddleware[] = [];
   public port = 8000;
   public router: NovaRouter;
@@ -109,17 +110,20 @@ class NovaWebServer {
       // await this.createStream();
 
       this.wss = new NovaSocketServer({ port: 8001 });
+      bundle({ ee: this.ee });
 
-      this.use(bundle());
+      // this.use(bundle());
       this.use(liveReload());
 
-      this.ee.on("bundle", () => {
+      this.ee.on("bundled", () => {
         // await this.createStream();
 
         this.wss?.broadcastAll({
           rebuild: true,
         });
       });
+
+      this.watchChanges();
     }
   }
 
@@ -138,6 +142,35 @@ class NovaWebServer {
 
   use(m: NovaMiddleware) {
     this.middleware.push(m);
+  }
+
+  async watchChanges() {
+    const notifiers = new Map<string, number>();
+    const watcher = Deno.watchFs(Deno.cwd());
+
+    for await (const event of watcher) {
+      const dataString = JSON.stringify(event);
+
+      // Is event duplicate? (Some OS's send duplicate events)
+      if (notifiers.has(dataString)) {
+        continue;
+      }
+
+      // Set event to be ignored for 25ms
+      notifiers.set(
+        dataString,
+        setTimeout(() => {
+          notifiers.delete(dataString);
+        }, 25)
+      );
+
+      const path = event.paths[0];
+      if (path.endsWith(".mdx.tsx") || path.includes("/dist")) {
+        continue;
+      }
+
+      this.ee.emit("bundle");
+    }
   }
 }
 

@@ -15,16 +15,25 @@ async function bootstrapExtensions({ server }: NovaBootstrapExtensionsProps) {
         const extensionModule = await import(extensionPath);
 
         if (extensionModule.default) {
-          const extension: NovaExtension = extensionModule.default;
+          const { actions, events }: NovaExtension = extensionModule.default;
 
-          for (let j = 0, k = extension.actions.length; j < k; j++) {
-            const { action, type } = extension.actions[j];
+          for (let j = 0, k = actions.length; j < k; j++) {
+            const { action, type } = actions[j];
 
             switch (type) {
               case "server":
                 await action({ server });
 
                 break;
+            }
+          }
+
+          for (let j = 0, k = events.length; j < k; j++) {
+            const { action, kind } = events[j];
+
+            switch (kind) {
+              default:
+                server.ee.on(kind, async () => await action({ server }));
             }
           }
         }

@@ -1,6 +1,6 @@
 import { fileExists } from "nova/utils/file.ts";
 import { join } from "std/path/mod.ts";
-import { DenoConfig, ImportMap } from "./types.ts";
+import { DenoConfig, ImportMap, NovaAppConfig } from "./types.ts";
 
 class NovaConfig {
   /**
@@ -21,7 +21,7 @@ class NovaConfig {
     try {
       const config = await import(novaConfigPath);
 
-      return config.default;
+      return config.default as NovaAppConfig;
     } catch (e) {
       console.error("Error parsing nova.config.ts", e);
 

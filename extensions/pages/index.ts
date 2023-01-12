@@ -1,4 +1,4 @@
-import Extension from "../v0.ts";
+import Extension from "nova/extensions/v0.ts";
 import { generateRoutes } from "./routes.ts";
 
 const extension = Extension.create({
@@ -6,10 +6,16 @@ const extension = Extension.create({
   name: "nova-extension-pages",
   title: "Pages",
   version: "0.1.0",
-}).extend("server", async ({ server }) => {
-  const routes = await generateRoutes();
+})
+  .extend("server", async ({ server }) => {
+    const routes = await generateRoutes();
 
-  server.router.addRoutes(routes);
-});
+    server.router.addRoutes(routes);
+  })
+  .on("bundle", async ({ server }) => {
+    const routes = await generateRoutes();
+
+    server.router.replaceRoutes(routes);
+  });
 
 export default extension;
