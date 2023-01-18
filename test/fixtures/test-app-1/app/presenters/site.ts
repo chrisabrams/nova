@@ -1,6 +1,6 @@
-import NovaPresenter from "~/core/presenters/index.ts";
-import ViewHelloData from "../views/hello-data.tsx";
-import ViewHomepage from "../views/index.tsx";
+import NovaPresenter from "nova/ext/presenters/index.ts";
+import ViewHelloData from "../pages/hello-data.tsx";
+import ViewHomepage from "../pages/index.tsx";
 import ViewModelHelloData, {
   viewModelProps,
 } from "../view-models/hello-data.ts";

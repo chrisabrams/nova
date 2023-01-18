@@ -1,11 +1,12 @@
-import { describe, expect, it, paths } from "~/test/_.ts";
-import { generateRoutes } from "~/extensions/pages/routes.ts";
+import { describe, expect, it, paths } from "test/_.ts";
+import { generateRoutes } from "nova/ext/pages/routes.ts";
+import NovaConfig from "nova/core/config/index.ts";
 
-import ViewHelloDataPage from "~/test/fixtures/app/pages/hello-data.tsx";
-import ViewIndexPage from "~/test/fixtures/app/pages/index.tsx";
-import ViewPostPage from "~/test/fixtures/app/pages/posts/index.tsx";
-import ViewPostsPage from "~/test/fixtures/app/pages/posts/[slug].tsx";
-import ViewOtherPage from "~/test/fixtures/app/pages/other/[...what].tsx";
+import ViewHelloDataPage from "test/fixtures/test-app-1/app/pages/hello-data.tsx";
+import ViewIndexPage from "test/fixtures/test-app-1/app/pages/index.tsx";
+import ViewPostPage from "test/fixtures/test-app-1/app/pages/posts/index.tsx";
+import ViewPostsPage from "test/fixtures/test-app-1/app/pages/posts/[slug].tsx";
+import ViewOtherPage from "test/fixtures/test-app-1/app/pages/other/[...what].tsx";
 
 describe("Bootstrap Routes", () => {
   it("should not generate a list of routes - missing views folder", async () => {
@@ -15,7 +16,11 @@ describe("Bootstrap Routes", () => {
   });
 
   it("should generate a list of routes", async () => {
-    const routes = await generateRoutes({ basePath: paths.fixtures });
+    NovaConfig.setAppConfig({});
+
+    const routes = await generateRoutes({
+      basePath: paths.fixtures.apps.testApp1,
+    });
 
     expect(routes.length).to.equal(5);
 

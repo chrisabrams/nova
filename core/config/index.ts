@@ -2,11 +2,17 @@ import { fileExists } from "nova/utils/file.ts";
 import { join } from "std/path/mod.ts";
 import { DenoConfig, ImportMap, NovaAppConfig } from "./types.ts";
 
+let appConfig: NovaAppConfig | null = null;
+
 class NovaConfig {
   /**
    * Get a Nova app's configuration.
    */
   static async getAppConfig() {
+    if (appConfig) {
+      return appConfig;
+    }
+
     const cwd = Deno.cwd();
     let novaConfigPath = join(cwd, "nova.config.ts");
 
@@ -87,6 +93,15 @@ class NovaConfig {
 
       return null;
     }
+  }
+
+  /**
+   * In the event that it's not possible to automatically detect
+   * the app config, this method can be used to set it manually.
+   * @param config
+   */
+  static setAppConfig(config: NovaAppConfig | null) {
+    appConfig = config;
   }
 }
 

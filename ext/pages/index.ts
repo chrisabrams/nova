@@ -1,4 +1,4 @@
-import Extension from "nova/extensions/v0.ts";
+import Extension from "nova/ext/v0.ts";
 import { generateRoutes } from "./routes.ts";
 
 const extension = Extension.create({

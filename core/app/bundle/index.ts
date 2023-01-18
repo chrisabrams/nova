@@ -17,6 +17,7 @@ const defaultImportMapBrowser = {
     "react-dom": "https://esm.sh/react-dom?dev",
     "react-dom/client": "https://esm.sh/react-dom/client?dev",
     "react/jsx-runtime": "https://esm.sh/react/jsx-runtime",
+    "react/jsx-dev-runtime": "https://esm.sh/react@18.2.0/jsx-dev-runtime",
     "react-router": "https://esm.sh/react-router@6.6.1?dev&external=react",
     "react-router-dom":
       "https://esm.sh/react-router-dom@6.6.1?dev&external=react,react-router",
@@ -82,12 +83,14 @@ export default async function ({ ee }: Pick<NovaMiddlewareProps, "ee">) {
       `,
     },
     bundle: true,
-    // entryPoints: ["./app/client.tsx"],
+    color: true,
+    // drop: ['console', 'debugger'],
     entryPoints: ["nova/core/app/bootstrap/client.tsx"],
     external: ["react", "react-dom", "react-dom/client", "react/jsx-runtime"],
     format: "esm",
     incremental: true,
     jsx: "automatic",
+    jsxDev: true,
     // metafile: true,
     outdir: "dist",
     plugins: [

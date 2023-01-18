@@ -5,10 +5,10 @@ import type {
   NovaViewDefinition,
   NovaViewInterfaceProps,
 } from "./types.ts";
-import { getFromIndex } from "~/utils/object.ts";
-import ViewModel from "~/core/view-models/index.ts";
-import { NovaViewComponentType } from "~/core/views/types.ts";
-import NovaViewModel from "../view-models/index.ts";
+import { getFromIndex } from "nova/utils/object.ts";
+import ViewModel from "nova/core/view-models/index.ts";
+import { NovaViewComponentType } from "nova/core/views/types.ts";
+import NovaViewModel from "nova/core/view-models/index.ts";
 
 class NovaPresenter {
   name: NovaPresenterOptions["name"];
@@ -42,10 +42,8 @@ class NovaPresenter {
         view.viewModel = viewModel;
         view.interface.setViewModel(viewModel);
       },
-      viewModelProps: (
-        viewModelProps: ReturnType<ViewModel["defineProps"]>
-      ) => {
-        view.viewModelProps = viewModelProps;
+      viewModelProps: (viewModelProps: ReturnType<ViewModel["getProps"]>) => {
+        // view.viewModelProps = viewModelProps;
       },
     };
   }
@@ -79,7 +77,7 @@ class NovaPresenter {
       }
     }
 
-    const props = await view.viewModel?.getProps();
+    const props = await view.viewModel?.loadProps();
 
     return props;
   }

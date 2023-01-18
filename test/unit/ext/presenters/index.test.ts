@@ -1,6 +1,6 @@
-import { describe, expect, it, paths } from "~/test/_.ts";
-import Presenter from "nova/core/presenters/index.ts";
-import ViewIndexPage from "~/test/fixtures/app/pages/index.tsx";
+import { describe, expect, it, paths } from "test/_.ts";
+import Presenter from "nova/ext/presenters/index.ts";
+import ViewIndexPage from "test/fixtures/test-app-1/app/pages/index.tsx";
 
 describe("Presenter", () => {
   it("should not create a presenter - missing constructor args", () => {

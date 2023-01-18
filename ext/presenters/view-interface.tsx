@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
-import { NovaViewComponentType } from "~/core/views/types.ts";
+import { NovaViewComponentType } from "nova/core/views/types.ts";
 import type { NovaViewInterfaceProps } from "./types.ts";
-import NovaViewModel from "~/core/view-models/index.ts";
+import NovaViewModel from "nova/core/view-models/index.ts";
 
 // TODO: What is the correct default type for props?
 class NovaViewInterface {

@@ -10,5 +10,5 @@ export interface ImportMap {
 
 export interface NovaAppConfig {
   extensions?: string[];
-  mode: "development";
+  mode?: "development";
 }

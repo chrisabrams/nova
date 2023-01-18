@@ -1,5 +1,12 @@
 import chaiJSDOM from "chai-jsdom";
-import { describe, it } from "std/testing/bdd.ts";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  it,
+} from "std/testing/bdd.ts";
 import { expect, use } from "chai";
 import { join } from "std/path/mod.ts";
 import { JSDOM } from "jsdom";
@@ -7,6 +14,8 @@ import { ReactElement } from "react";
 import { render, screen } from "testing-library";
 import { renderToString } from "react-dom/server";
 import { DOMParser, initParser } from "deno-dom/deno-dom-wasm-noinit.ts";
+
+import NovaConfig from "nova/core/config/index.ts";
 
 await initParser();
 
@@ -46,11 +55,29 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
  */
 
 // Common paths used for testing
+const fixtures = join(Deno.cwd(), "test", "fixtures");
 const paths = {
-  fixtures: join(Deno.cwd(), "test", "fixtures"),
+  fixtures: {
+    root: fixtures,
+    apps: {
+      testApp1: join(fixtures, "test-app-1"),
+    },
+  },
 };
 
-export { describe, expect, it, join, paths, render, screen };
+export {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  join,
+  paths,
+  render,
+  screen,
+};
 
 export function parseFromComponent(Component: ReactElement) {
   const html = renderToString(Component);
@@ -63,3 +90,11 @@ export function parseFromString(html: string) {
 
   return doc;
 }
+
+/**
+ * TODO: Where to initialize global before/after methods?
+ */
+beforeEach(() => {
+  // Reset app config
+  NovaConfig.setAppConfig(null);
+});

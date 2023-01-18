@@ -1,6 +1,5 @@
 {
   "imports": {
-    "~/": "../",
     "@hedgedoc/html-to-react": "https://esm.sh/@hedgedoc/html-to-react@1.4.5",
     "@mdx-js/esbuild": "https://esm.sh/@mdx-js/esbuild@2.2.1?target=deno",
     "@mdx-js/mdx": "https://esm.sh/@mdx-js/mdx@2.2.1?target=deno",
@@ -14,7 +13,8 @@
     "jsdom": "https://esm.sh/jsdom@20.0.3",
     "nova/": "../",
     "react": "https://esm.sh/react@18.2.0?dev",
-    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime?dev",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+    "react/jsx-dev-runtime": "https://esm.sh/react@18.2.0/jsx-dev-runtime",
     "react-dom": "https://esm.sh/react-dom@18.2.0?dev",
     "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
     "react-dom/server": "https://esm.sh/react-dom@18.2.0/server?dev",
@@ -23,6 +23,7 @@
     "react-router-dom/server": "https://esm.sh/react-router-dom@6.6.1/server?dev&external=react",
     "std/": "https://deno.land/std@0.170.0/",
     "https://deno.land/std@0.170.0/node/vm.ts": "../lib/std/node/vm.ts",
+    "test/": "../test/",
     "testing-library": "https://esm.sh/@testing-library/react@13.4.0?external=react",
     "websocket/": "https://deno.land/x/websocket@v0.1.4/"
   }

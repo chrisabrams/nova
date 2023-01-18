@@ -1,8 +1,8 @@
-import NovaViewModel from "~/core/view-models/index.ts";
+import NovaViewModel from "nova/core/view-models/index.ts";
 
 const viewModel = NovaViewModel.create("hello-data-view-model");
 
-export const viewModelProps = viewModel.defineProps(() => {
+export const viewModelProps = viewModel.getProps(() => {
   return {
     name: "Dave",
   };
@@ -10,7 +10,7 @@ export const viewModelProps = viewModel.defineProps(() => {
 
 export default viewModel;
 
-export type ViewModelProps = ReturnType<typeof viewModelProps["getProps"]>;
+export type ViewModelProps = ReturnType<typeof viewModelProps["loadProps"]>;
 
 /*
 export type ViewModelProps = ReturnType<

@@ -3,7 +3,7 @@ import { expandGlob } from "std/fs/expand_glob.ts";
 import { importer, readTextFile } from "nova/utils/import.ts";
 import { tseval } from "nova/utils/eval.ts";
 import type { NovaRoute } from "nova/core/router/types.ts";
-import type { NovaViewDefinition } from "nova/core/presenters/types.ts";
+import type { NovaViewDefinition } from "nova/ext/presenters/types.ts";
 import type { GenerateRoutesOptions } from "./types.ts";
 
 export async function generateRoutes({
@@ -43,8 +43,8 @@ export async function generateRoutes({
           remarkPlugins: [],
           // useDynamicImport: true,
         });
-
-        const evaled = await tseval(file.path, compiled.value);
+        console.log("compiled", compiled);
+        const evaled = await tseval(file.path, compiled.value as string);
 
         component = evaled.default;
       } catch (e) {
@@ -60,12 +60,12 @@ export async function generateRoutes({
     }
 
     routes.push({
-      Component: component,
+      // Component: component,
       config,
       Element: component,
       id: file.path,
       path,
-      view: {} as NovaViewDefinition,
+      // view: {} as NovaViewDefinition,
     });
   }
 

@@ -1,5 +1,5 @@
 import NovaConfig from "nova/core/config/index.ts";
-import NovaExtension from "nova/extensions/v0.ts";
+import NovaExtension from "nova/ext/v0.ts";
 import type { NovaBootstrapExtensionsProps } from "./types.ts";
 
 async function bootstrapExtensions({ server }: NovaBootstrapExtensionsProps) {

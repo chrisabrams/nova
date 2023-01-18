@@ -1,4 +1,4 @@
-import type { NovaViewConfig } from "~/core/views/types.ts";
+import type { NovaViewConfig } from "nova/core/views/types.ts";
 
 function IndexPage() {
   return <div>Hello world</div>;

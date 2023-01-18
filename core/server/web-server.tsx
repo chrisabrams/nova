@@ -1,15 +1,12 @@
-import { ComponentType } from "react";
-// import { deepmerge } from "deepmerge-ts";
 import { EventEmitter } from "std/node/events.ts";
 import { serve } from "std/http/server.ts";
 import {
   ReactDOMServerReadableStream,
   renderToReadableStream,
-  renderToString,
 } from "react-dom/server";
-// import bundle from "./middleware/bundle.ts";
 import bundle from "nova/core/app/bundle/index.ts";
 import NovaSocketServer from "./socket-server.ts";
+import { importer } from "nova/utils/import.ts";
 import { join } from "std/path/mod.ts";
 import type { NovaMiddleware, NovaWebServerOptions } from "./types.ts";
 import liveReload from "./middleware/live-reload.ts";
@@ -70,8 +67,7 @@ class NovaWebServer {
 
     try {
       appIndex = join(this.appPath, "index.tsx");
-      const appPath = this.dev ? `${appIndex}#${Date.now()}` : appIndex; // #Date.now() is a hack to force Deno to re-import the file
-      const { default: App } = await import(appPath);
+      const { default: App } = await importer(appIndex);
 
       return App;
     } catch (e) {

@@ -1,4 +1,4 @@
-import type { NovaViewInterfaceProps } from "../presenters/types.ts";
+import type { NovaViewInterfaceProps } from "nova/ext/presenters/types.ts";
 
 export type NovaViewModelHandler<T> =
   | ((props: NovaViewModelHandlerProps) => Promise<T>)

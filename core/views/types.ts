@@ -1,5 +1,5 @@
 import { ComponentType } from "react";
-import NovaViewModel from "~/core/view-models/index.ts";
+import NovaViewModel from "nova/core/view-models/index.ts";
 
 export interface NovaViewComponentType {
   (props: any): JSX.Element; // TODO: Fix this type

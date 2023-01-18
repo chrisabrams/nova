@@ -1,4 +1,4 @@
-import type { NovaViewInterfaceProps } from "../presenters/types.ts";
+import type { NovaViewInterfaceProps } from "nova/ext/presenters/types.ts";
 import { NovaViewModelHandler, NovaViewModelOptions } from "./types.ts";
 
 class NovaViewModel {
@@ -18,29 +18,17 @@ class NovaViewModel {
     return new NovaViewModel({ name, props });
   }
 
-  defineProps<T>(handler: NovaViewModelHandler<T>) {
-    // return handler({ ctx: {} });
+  getProps<T>(handler: NovaViewModelHandler<T>) {
     this.handler = handler;
 
-    /*
     return {
-      async getProps() {
-        const props = await handler({ ctx: {} });
-
-        _this.props = props;
-
-        return props;
-      },
-    };
-    */
-    return {
-      getProps: () => {
-        return this.getProps() as Promise<T>;
+      loadProps: () => {
+        return this.loadProps() as Promise<T>;
       },
     };
   }
 
-  async getProps() {
+  async loadProps() {
     const props = await this.handler({ ctx: {} });
 
     this.props = props;
