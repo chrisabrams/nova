@@ -1,10 +1,12 @@
 {
   "imports": {
     "@hedgedoc/html-to-react": "https://esm.sh/@hedgedoc/html-to-react@1.4.5",
+    "@stitches/react": "https://esm.sh/@stitches/react@1.2.8?target=deno",
     "@mdx-js/esbuild": "https://esm.sh/@mdx-js/esbuild@2.2.1?target=deno",
     "@mdx-js/mdx": "https://esm.sh/@mdx-js/mdx@2.2.1?target=deno",
     "chai": "https://esm.sh/chai@4.3.7",
     "chai-jsdom": "https://esm.sh/chai-jsdom@0.2.3",
+    "cky/": "../packages/design-system/",
     "cliffy/": "https://deno.land/x/cliffy@v0.25.7/",
     "deepmerge-ts/": "https://esm.sh/deepmerge-ts@4.2.2/",
     "deno-dom/": "https://deno.land/x/deno_dom@v0.1.36-alpha/",
@@ -18,8 +20,7 @@
     "react-dom": "https://esm.sh/react-dom@18.2.0?dev",
     "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
     "react-dom/server": "https://esm.sh/react-dom@18.2.0/server?dev",
-    "react-router": "https://esm.sh/react-router@6.6.1?dev&external=react",
-    "react-router-dom": "https://esm.sh/react-router-dom@6.6.1?dev&external=react,react-router",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.6.1?dev&external=react",
     "react-router-dom/server": "https://esm.sh/react-router-dom@6.6.1/server?dev&external=react",
     "std/": "https://deno.land/std@0.170.0/",
     "https://deno.land/std@0.170.0/node/vm.ts": "../lib/std/node/vm.ts",

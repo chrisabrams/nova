@@ -1,5 +1,6 @@
 import { readFileSync } from "std/node/fs.ts";
 import NovaConfig from "nova/core/config/index.ts";
+import { join } from "std/path/mod.ts";
 
 export async function generatePath(path: string) {
   const config = await NovaConfig.getAppConfig();
@@ -14,7 +15,9 @@ export async function generatePath(path: string) {
 }
 
 export async function importer(path: string) {
-  const importPath = await generatePath(path);
+  const importPath = await generatePath(
+    path.replace("~", Deno.cwd()).replace("$dist", join(Deno.cwd(), "dist")) // TODO: Make configureable
+  );
 
   return import(importPath);
 }

@@ -1,6 +1,5 @@
 import { ComponentType, ReactNode } from "react";
-import { matchRoutes } from "react-router";
-import { Route, Routes } from "react-router-dom";
+import { matchRoutes, Route, Routes } from "react-router-dom";
 import NovaViewInterface from "nova/ext/presenters/view-interface.tsx";
 import type { NovaViewDefinition } from "nova/ext/presenters/types.ts";
 import type { NovaRoute, NovaRouteOptions } from "./types.ts";

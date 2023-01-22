@@ -1,0 +1,15 @@
+export default {
+  xs: '12px',
+  sm: '14px',
+  md: '16px',
+  lg: '18px',
+  xl: '20px',
+  xl2: '24px',
+  xl3: '30px',
+  xl4: '36px',
+  xl5: '48px',
+  xl6: '60px',
+  xl7: '72px',
+  xl8: '96px',
+  xl9: '128px',
+}

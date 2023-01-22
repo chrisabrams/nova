@@ -11,6 +11,7 @@ import { join } from "std/path/mod.ts";
 import type { NovaMiddleware, NovaWebServerOptions } from "./types.ts";
 import liveReload from "./middleware/live-reload.ts";
 import NovaRouter from "nova/core/router/index.tsx";
+import { readTextFile } from "nova/utils/import.ts";
 import { StaticRouter } from "react-router-dom/server";
 
 class NovaWebServer {
@@ -45,13 +46,24 @@ class NovaWebServer {
   async createStream(url: URL) {
     const App = await this.getAppComponent();
     const location = url.pathname;
+    const meta = JSON.parse(
+      await readTextFile(join(this.distDir, "meta.json"))
+    );
+
+    const bootstrapModules: string[] = ["dist/entrypoints.js"];
+    for (const [key, value] of Object.entries(meta.outputs)) {
+      bootstrapModules.push(key); // TODO: Make sure dist is toggeable in the future.
+
+      break; // The first one is the client
+    }
 
     const stream = await renderToReadableStream(
       <StaticRouter location={location}>
         <App>{this.router.render()}</App>
       </StaticRouter>,
       {
-        bootstrapModules: [join(this.distDir, "client.js")],
+        // bootstrapModules: [join(this.distDir, "client.js")],
+        bootstrapModules,
       }
     );
 
@@ -86,6 +98,7 @@ class NovaWebServer {
         data,
         ee: this.ee,
         req,
+        router: this.router,
         wss: this.wss,
       });
 
@@ -106,10 +119,10 @@ class NovaWebServer {
       // await this.createStream();
 
       this.wss = new NovaSocketServer({ port: 8001 });
-      bundle({ ee: this.ee });
+      bundle({ ee: this.ee, router: this.router });
 
       // this.use(bundle());
-      this.use(liveReload());
+      // this.use(liveReload());
 
       this.ee.on("bundled", () => {
         // await this.createStream();

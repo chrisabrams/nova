@@ -9,6 +9,7 @@ export interface ImportMap {
 }
 
 export interface NovaAppConfig {
+  distDir?: string;
   extensions?: string[];
   mode?: "development";
 }

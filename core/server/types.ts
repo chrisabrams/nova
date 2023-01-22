@@ -10,6 +10,7 @@ export interface NovaMiddlewareProps {
   data: Record<string, unknown>;
   ee: EventEmitter;
   req: Request;
+  router: NovaRouter;
   wss?: NovaSocketServer;
 }
 

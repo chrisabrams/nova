@@ -3,6 +3,10 @@ import { join } from "std/path/mod.ts";
 import { DenoConfig, ImportMap, NovaAppConfig } from "./types.ts";
 
 let appConfig: NovaAppConfig | null = null;
+const defaultAppConfig: NovaAppConfig = {
+  distDir: "dist",
+  mode: "development",
+};
 
 class NovaConfig {
   /**
@@ -26,8 +30,12 @@ class NovaConfig {
 
     try {
       const config = await import(novaConfigPath);
+      const appConfig = config.default as NovaAppConfig;
 
-      return config.default as NovaAppConfig;
+      return {
+        ...defaultAppConfig,
+        ...appConfig,
+      };
     } catch (e) {
       console.error("Error parsing nova.config.ts", e);
 
